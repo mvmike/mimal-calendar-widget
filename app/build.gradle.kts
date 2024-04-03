@@ -27,11 +27,11 @@ android {
 
     defaultConfig {
 
-        applicationId = namespace
+        applicationId = namespace + ".BETA"
         minSdk = minAndroidVersion
         targetSdk = androidVersion
         versionCode = 82
-        versionName = "2.16.0"
+        versionName = "2.16.0-BETA"
 
         multiDexEnabled = true
     }
