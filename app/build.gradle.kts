@@ -30,8 +30,8 @@ android {
         applicationId = namespace + ".BETA"
         minSdk = minAndroidVersion
         targetSdk = androidVersion
-        versionCode = 82
-        versionName = "2.16.0-BETA"
+        versionCode = 83
+        versionName = "2.17.0" + "-BETA"
 
         multiDexEnabled = true
     }
@@ -114,7 +114,7 @@ dependencies {
 
     // https://developer.android.com/jetpack/androidx/versions/
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.multidex:multidex:2.0.1")
     implementation("androidx.preference:preference-ktx:1.2.1")
 
@@ -126,14 +126,14 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // https://github.com/mockk/mockk/releases
-    testImplementation("io.mockk:mockk:1.13.10")
+    testImplementation("io.mockk:mockk:1.13.11")
 
     // https://github.com/assertj/assertj-core/tags
     testImplementation("org.assertj:assertj-core:3.25.3")
 
     // https://github.com/TNG/ArchUnit/releases
-    testImplementation("com.tngtech.archunit:archunit-junit5:1.2.1")
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.3.0")
 
     // https://github.com/qos-ch/slf4j/tags
-    testImplementation("org.slf4j:slf4j-simple:2.0.12")
+    testImplementation("org.slf4j:slf4j-simple:2.0.13")
 }
