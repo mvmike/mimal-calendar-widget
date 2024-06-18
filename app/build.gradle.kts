@@ -8,6 +8,8 @@ plugins {
     id("kotlin-android")
     // https://github.com/jeremymailen/kotlinter-gradle/releases
     id("org.jmailen.kotlinter") version "4.3.0"
+    // https://github.com/Kotlin/kotlinx-kover/releases
+    id("org.jetbrains.kotlinx.kover") version "0.8.1"
 }
 
 android {
@@ -19,7 +21,7 @@ android {
     val androidVersion = 34      // 14.0
 
     // https://adoptium.net/temurin/releases/
-    val javaVersion = JavaVersion.VERSION_17
+    val javaVersion = JavaVersion.VERSION_21
 
     compileSdk = androidVersion
     // https://developer.android.com/studio/releases/build-tools
@@ -57,9 +59,25 @@ android {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+        jvmArgs("-XX:+EnableDynamicAgentLoading")
         testLogging {
             events(SKIPPED, FAILED, STANDARD_ERROR, STANDARD_OUT)
         }
+        afterSuite(
+            KotlinClosure2(
+                { desc: TestDescriptor, result: TestResult ->
+                    desc.parent
+                        ?.let { return@KotlinClosure2 } // only the outermost suite
+                        ?: println(
+                            "${result.resultType} (" +
+                                "${result.testCount} tests - " +
+                                "${result.successfulTestCount} successes, " +
+                                "${result.failedTestCount} failures, " +
+                                "${result.skippedTestCount} skipped)"
+                        )
+                }
+            )
+        )
     }
 
     /*
@@ -110,12 +128,41 @@ android {
     }
 }
 
+kover {
+    reports {
+        filters {
+            excludes {
+                androidGeneratedClasses()
+                classes(
+                    "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilinePreference",
+                    "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineListPreference",
+                    "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineCheckBoxPreference",
+                    "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineSeekBarPreference",
+                    "cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver",
+                    "cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver"
+                )
+                packages("cat.mvmike.minimalcalendarwidget.infrastructure.activity.*")
+            }
+        }
+        verify {
+            rule {
+                bound {
+                    minValue = 85
+                }
+            }
+        }
+    }
+}
+
 dependencies {
 
-    // https://developer.android.com/jetpack/androidx/versions/
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    // https://developer.android.com/jetpack/androidx/releases/appcompat
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    // https://developer.android.com/jetpack/androidx/releases/core
     implementation("androidx.core:core-ktx:1.13.1")
+    // https://developer.android.com/jetpack/androidx/releases/multidex
     implementation("androidx.multidex:multidex:2.0.1")
+    // https://developer.android.com/jetpack/androidx/releases/preference
     implementation("androidx.preference:preference-ktx:1.2.1")
 
     // https://github.com/junit-team/junit5/releases
@@ -129,7 +176,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.11")
 
     // https://github.com/assertj/assertj-core/tags
-    testImplementation("org.assertj:assertj-core:3.25.3")
+    testImplementation("org.assertj:assertj-core:3.26.0")
 
     // https://github.com/TNG/ArchUnit/releases
     testImplementation("com.tngtech.archunit:archunit-junit5:1.3.0")
