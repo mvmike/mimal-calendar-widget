@@ -5,12 +5,12 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 import android.text.Layout
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.domain.Cell
 import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.Instance.AllDayInstance
 import cat.mvmike.minimalcalendarwidget.domain.Instance.TimedInstance
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService.getNumberOfInstances
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Cell
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
@@ -299,6 +299,7 @@ internal class DaysServiceTest : BaseTest() {
     private fun getSystemInstances(): Set<Instance> = (
         readTestResourceCsvFile("/system_all_day_instances.csv").map {
             AllDayInstance(
+                id = random.nextInt(),
                 eventId = random.nextInt(),
                 isDeclined = it[0].toBoolean(),
                 start = LocalDate.parse(it[1]),
@@ -307,6 +308,7 @@ internal class DaysServiceTest : BaseTest() {
         } +
             readTestResourceCsvFile("/system_timed_instances.csv").map {
                 TimedInstance(
+                    id = random.nextInt(),
                     eventId = random.nextInt(),
                     isDeclined = it[0].toBoolean(),
                     start = ZonedDateTime.parse(it[1]),

@@ -17,7 +17,7 @@
     <string name="theme">Chủ đề</string>
     <string name="symbol_set">Bộ biểu tượng</string>
     <string name="symbol_colour">Màu biểu tượng</string>
-    <string name="transparency">Minh bạch</string>
+    <string name="transparency">Độ trong suốt</string>
     <string name="text_size">Cỡ chữ</string>
 
     <string name="about">Về</string>
@@ -26,7 +26,7 @@
     <string name="translate">Dịch</string>
     <string name="version">Phiên bản</string>
 
-    <string name="reset_settings">Đặt lại cài đặt</string>
+    <string name="reset_settings">Đặt lại thiết đặt</string>
     <string name="close">Đóng</string>
 
     <!--Months of year-->
